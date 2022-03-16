@@ -34,6 +34,13 @@ cell = lib.new_cell('DBR-PCSEL-CONFIG-II')
 # =============================================================================
 
 deviceSize = 50
+
+htext = gdspy.Text("CONFIGURATION TWO", 5, (deviceSize*1.2, deviceSize*4.5))
+cell.add(htext)
+htext = gdspy.Text("O  O", 10, (deviceSize*1.7, deviceSize*4.2))
+cell.add(htext)
+
+
 geometry_center = (0, deviceSize*4)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)

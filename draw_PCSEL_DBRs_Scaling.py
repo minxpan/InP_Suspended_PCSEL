@@ -103,7 +103,7 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 # =============================================================================
 # =============================================================================
 # =============================================================================
-# # # structure 6: 5 PC PCSEL with 5 period of DBR, finwidth 0.5 micron
+# # # structure 6: 5 PC PCSEL with 0 period of DBR, finwidth 0.5 micron
 # =============================================================================
 # =============================================================================
 # =============================================================================
@@ -117,12 +117,8 @@ make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_cent
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
-geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
-
-make_DBRs(cell, geometry_data, Ndbr = 5, geometry_center = geometry_center)
-
 # =============================================================================
-# structure 7: 5 PC PCSEL with 8 period of DBR, finwidth 0.5 micron
+# structure 7: 5 PC PCSEL with 1 period of DBR, finwidth 0.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*1, deviceSize*1)
@@ -132,25 +128,28 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 
 geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
+make_DBRs(cell, geometry_data, Ndbr = 1, geometry_center = geometry_center)
 
 # =============================================================================
-# structure 8: 5 PC PCSEL without DBR
+# structure 8: 5 PC PCSEL 3 period of DBR, finwidth 0.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*1, deviceSize*2)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
+geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
+
+make_DBRs(cell, geometry_data, Ndbr = 3, geometry_center = geometry_center)
 
 # =============================================================================
 # =============================================================================
 # =============================================================================
-# # # structure 9: 6 PC PCSEL with 8 period of DBR, finwidth 0.5 micron
+# # # structure 9: 5 PC PCSEL with 5 period of DBR, finwidth 0.5 micron
 # =============================================================================
 # =============================================================================
 # =============================================================================
-Ncore = 6
+Ncore = 5
 a = 0.636
 finwidth = 0.5
 geometry_center = (deviceSize*1, deviceSize*3)
@@ -160,10 +159,10 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 
 geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
+make_DBRs(cell, geometry_data, Ndbr =5, geometry_center = geometry_center)
 
 # =============================================================================
-# structure 10: 6 PC PCSEL with 5 period of DBR, finwidth 0.5 micron
+# structure 10: 5 PC PCSEL with 8 period of DBR, finwidth 0.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*1, deviceSize*4)
@@ -173,30 +172,17 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 
 geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-make_DBRs(cell, geometry_data, Ndbr = 5, geometry_center = geometry_center)
+make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
 
 # =============================================================================
-# structure 11: 6 PC PCSEL without DBR
-# =============================================================================
-
-geometry_center = (deviceSize*2, deviceSize*0)
-make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
-make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
-make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
-
-# =============================================================================
-# =============================================================================
-# =============================================================================
-# # # structure 12: 7 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
-# =============================================================================
-# =============================================================================
+# structure 11: 7 PC PCSEL with 8 period of DBR, finwidth 1 micron
 # =============================================================================
 
 Ncore = 7
 a = 0.646
-finwidth = 1.5
+finwidth = 1
 
-geometry_center = (deviceSize*2, deviceSize*1)
+geometry_center = (deviceSize*2, deviceSize*0)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
@@ -205,8 +191,22 @@ geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
 make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
 
+
 # =============================================================================
-# structure 13: 7 PC PCSEL with 5 period of DBR, finwidth 1.5 micron
+# structure 12: 7 PC PCSEL with 5 period of DBR, finwidth 1.5 micron
+# =============================================================================
+
+geometry_center = (deviceSize*2, deviceSize*1)
+make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
+make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
+make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
+
+geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
+
+make_DBRs(cell, geometry_data, Ndbr = 5, geometry_center = geometry_center)
+
+# =============================================================================
+# structure 13: 7 PC PCSEL with 3 period of DBR, finwidth 1.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*2, deviceSize*2)
@@ -216,10 +216,10 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 
 geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-make_DBRs(cell, geometry_data, Ndbr = 5, geometry_center = geometry_center)
+make_DBRs(cell, geometry_data, Ndbr = 3, geometry_center = geometry_center)
 
 # =============================================================================
-# structure 14: 7 PC PCSEL without DBR
+# structure 14: 7 PC PCSEL with 1 period of DBR, finwidth 1.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*2, deviceSize*3)
@@ -227,13 +227,13 @@ make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_cent
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
-# =============================================================================
-# structure 15: 8 PC PCSEL without DBR
-# =============================================================================
+geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-Ncore = 8
-a = 0.646
-finwidth = 1.5
+make_DBRs(cell, geometry_data, Ndbr = 1, geometry_center = geometry_center)
+
+# =============================================================================
+# structure 15: 7 PC PCSEL without DBR
+# =============================================================================
 
 geometry_center = (deviceSize*2, deviceSize*4)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
@@ -241,20 +241,20 @@ make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = g
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
 # =============================================================================
-# structure 16: 8 PC PCSEL with 5 period of DBR, finwidth 1.5 micron
+# structure 16: 10 PC PCSEL with 0 period of DBR, finwidth 1.5 micron
 # =============================================================================
+
+Ncore = 10
+a = 0.646
+finwidth = 1.5
 
 geometry_center = (deviceSize*3, deviceSize*0)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
-geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
-
-make_DBRs(cell, geometry_data, Ndbr = 5, geometry_center = geometry_center)
-
 # =============================================================================
-# structure 17: 8 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
+# structure 17: 10 PC PCSEL with 1 period of DBR, finwidth 1.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*3, deviceSize*1)
@@ -264,15 +264,11 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 
 geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
+make_DBRs(cell, geometry_data, Ndbr = 1, geometry_center = geometry_center)
 
 # =============================================================================
-# structure 18: 9 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
+# structure 18: 10 PC PCSEL with 3 period of DBR, finwidth 1.5 micron
 # =============================================================================
-
-Ncore = 9
-a = 0.646
-finwidth = 1.5
 
 geometry_center = (deviceSize*3, deviceSize*2)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
@@ -281,11 +277,11 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 
 geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
+make_DBRs(cell, geometry_data, Ndbr = 3, geometry_center = geometry_center)
 
 
 # =============================================================================
-# structure 19: 9 PC PCSEL without DBR
+# structure 19: 10 PC PCSEL with 5 period of DBR, finwidth 1.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*3, deviceSize*3)
@@ -293,22 +289,30 @@ make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_cent
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
-# =============================================================================
-# structure 20: 10 PC PCSEL without DBR
-# =============================================================================
+geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-Ncore = 10
-a = 0.646
-finwidth = 1.5
+make_DBRs(cell, geometry_data, Ndbr = 5, geometry_center = geometry_center)
+
+# =============================================================================
+# structure 20: 10 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
+# =============================================================================
 
 geometry_center = (deviceSize*3, deviceSize*4)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
+geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
+
+make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
+
 # =============================================================================
-# structure 21: 10 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
+# structure 21: 15 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
 # =============================================================================
+
+Ncore = 15
+a = 0.646
+finwidth = 1.5
 
 geometry_center = (deviceSize*4, deviceSize*0)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
@@ -320,24 +324,20 @@ geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
 
 # =============================================================================
+# structure 22: 15 PC PCSEL with 5 period of DBR, finwidth 1.5 micron
 # =============================================================================
-# =============================================================================
-# # # structure 22: 12 PC PCSEL without DBR
-# =============================================================================
-# =============================================================================
-# =============================================================================
-
-Ncore = 12
-a = 0.646
-finwidth = 1.5
 
 geometry_center = (deviceSize*4, deviceSize*1)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
+geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
+
+make_DBRs(cell, geometry_data, Ndbr = 5, geometry_center = geometry_center)
+
 # =============================================================================
-# structure 23: 12 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
+# structure 23: 15 PC PCSEL with 3 period of DBR, finwidth 1.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*4, deviceSize*2)
@@ -347,37 +347,29 @@ make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometr
 
 geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
 
-make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
+make_DBRs(cell, geometry_data, Ndbr = 3, geometry_center = geometry_center)
 
 # =============================================================================
+# structure 23: 15 PC PCSEL with 1 period of DBR, finwidth 1.5 micron
 # =============================================================================
-# =============================================================================
-# # # structure 24: 15 PC PCSEL without DBR
-# =============================================================================
-# =============================================================================
-# =============================================================================
-
-Ncore = 15
-a = 0.646
-finwidth = 1.5
 
 geometry_center = (deviceSize*4, deviceSize*3)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
 
+geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
+
+make_DBRs(cell, geometry_data, Ndbr = 1, geometry_center = geometry_center)
+
 # =============================================================================
-# structure 25: 15 PC PCSEL with 8 period of DBR, finwidth 1.5 micron
+# structure 25: 15 PC PCSEL with 0 period of DBR, finwidth 1.5 micron
 # =============================================================================
 
 geometry_center = (deviceSize*4, deviceSize*4)
 make_hexagonal_lattice(cell, a, 0, Ncore, Rcore, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore, Ncore+Ntrans, Rtrans, geometry_center = geometry_center)
 make_hexagonal_lattice(cell, a, Ncore+Ntrans, Ncore+Ntrans+Nclad, Rclad, geometry_center = geometry_center)
-
-geometry_data = (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth)
-
-make_DBRs(cell, geometry_data, Ndbr = 8, geometry_center = geometry_center)
 
 
 # Save the library in a file called 'first.gds'.

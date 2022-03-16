@@ -323,11 +323,21 @@ def make_coupled_DBRs(cell, geometry_data: tuple, geometry_center: tuple, Ndbr: 
 def get_coupled_pcsel_center_D4(centerA: tuple, geometry_data: tuple):
     (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth) = initilize_data(geometry_data)
     R00 = a*(Ncore + Ntrans + Nclad + 0.5)/2*math.sqrt(3)
+    D08 = (R00 + tair/2 + tinp*4 + tair*3)/math.sin(math.pi/3)
+    D09 = (R00 + tair/2 + tinp*4 + tair*4)/math.sin(math.pi/3)
+    Dm = (D08 + D09)/2
+    # mirror_point = (Dm/2*(1 + math.cos(math.pi/3)), Dm/2*math.sin(math.pi/3))
+    mirror_point = tuple_add((Dm*math.cos(math.pi/6), 0), centerA)
+    return mirror_point, tuple_add(mirror_point, tuple_substract(mirror_point, centerA))
+
+def get_coupled_pcsel_center_D9(centerA: tuple, geometry_data: tuple):
+    (a, Ncore, Ntrans, Nclad, tinp, tair, finwidth) = initilize_data(geometry_data)
+    R00 = a*(Ncore + Ntrans + Nclad + 0.5)/2*math.sqrt(3)
     D03 = (R00 + tair/2 + tinp + tair)/math.sin(math.pi/3)
     D04 = (R00 + tair/2 + tinp*2 + tair)/math.sin(math.pi/3)
     Dm = (D03 + D04)/2
     # mirror_point = (Dm/2*(1 + math.cos(math.pi/3)), Dm/2*math.sin(math.pi/3))
-    mirror_point = (Dm*math.cos(math.pi/6), centerA[1])
+    mirror_point = tuple_add((Dm*math.cos(math.pi/6), 0), centerA)
     return mirror_point, tuple_add(mirror_point, tuple_substract(mirror_point, centerA))
 
 def initilize_data(geometry_data: tuple):
@@ -348,7 +358,7 @@ def rotate_geometry(polygens, geometry_center, mirror_point, angle):
     return polygens_rotated
     
 
-def make_trucated_DBRs(lib, cell, geometry_data, radii, geometry_center_A, connection):
+def make_trucated_DBRs(lib, cell, geometry_data, radii, geometry_center_A, connection, decoupled):
     
         
     cell0 = lib.new_cell(str(uuid.uuid4()))
@@ -371,7 +381,12 @@ def make_trucated_DBRs(lib, cell, geometry_data, radii, geometry_center_A, conne
 
     polygens = cell0.get_polygonsets()
 
-    mirror_point, geometry_centerB = get_coupled_pcsel_center_D4(geometry_center_A, geometry_data)
+    if decoupled:
+        mirror_point, geometry_centerB = get_coupled_pcsel_center_D4(geometry_center_A, geometry_data)
+    else:
+        mirror_point, geometry_centerB = get_coupled_pcsel_center_D9(geometry_center_A, geometry_data)
+    
+    print(mirror_point)
 
     polygens_rotated = []
     for item in polygens:
@@ -380,36 +395,53 @@ def make_trucated_DBRs(lib, cell, geometry_data, radii, geometry_center_A, conne
 
     R00 = a*(Ncore + Ntrans + Nclad + 0.5)/2*math.sqrt(3)
     D00 = (R00 - tair/2)/math.sin(math.pi/3) - 1
+    D03 = (R00 + tair/2 + tinp + tair)/math.sin(math.pi/3)
+    D04 = (R00 + tair/2 + tinp*2 + tair)/math.sin(math.pi/3)
+    D08 = (R00 + tair/2 + tinp*4 + tair*3)/math.sin(math.pi/3)
+    D09 = (R00 + tair/2 + tinp*4 + tair*4)/math.sin(math.pi/3)
+    Dm = (D03 + D04)/2*math.cos(math.pi/6) if not decoupled else (D08 + D09)/2*math.cos(math.pi/6)
     
     cell0.remove_polygons(lambda pts, layer, datatype: any(pts[:, 0]))
-    Dw = 3*tinp + 2*tair
-    Dh = 10*tinp + 10*tair
-    Dt = mirror_point[0] - D00
+    Dw = 3*tair + 2*tinp +0.1
+    Dh = Dw + (Ncore - 1.5)*a if not decoupled else Dw + (Ncore - 0.5)*a
     
-    inv1 = gdspy.Polygon([(mirror_point[0] - Dw/2, mirror_point[0]*math.sin(math.pi/3) + 1 + Dh/2),
-                        (mirror_point[0] + Dw/2, mirror_point[0]*math.sin(math.pi/3) + 1 + Dh/2),
-                        (mirror_point[0] + Dw/2, mirror_point[0]*math.sin(math.pi/3) + 1 - Dh/2),
-                        (mirror_point[0] - Dw/2, mirror_point[0]*math.sin(math.pi/3) + 1 - Dh/2)])
-    inv2 = gdspy.Polygon([(mirror_point[0] - Dw/2, -mirror_point[0]*math.sin(math.pi/3) - 1 + Dh/2),
-                        (mirror_point[0] + Dw/2, -mirror_point[0]*math.sin(math.pi/3) - 1 + Dh/2),
-                        (mirror_point[0] + Dw/2, -mirror_point[0]*math.sin(math.pi/3) - 1 - Dh/2),
-                        (mirror_point[0] - Dw/2, -mirror_point[0]*math.sin(math.pi/3) - 1 - Dh/2)])
+    Dt = (D03 + D04)/2 - D00 - a
+    
+    # inv1 = gdspy.Polygon([(mirror_point[0] - Dw/2, mirror_point[1] + mirror_point[0]*math.sin(math.pi/3) + 1 + Dh/2),
+    #                     (mirror_point[0] + Dw/2, mirror_point[1] + mirror_point[0]*math.sin(math.pi/3) + 1 + Dh/2),
+    #                     (mirror_point[0] + Dw/2, mirror_point[1] + mirror_point[0]*math.sin(math.pi/3) + 1 - Dh/2),
+    #                     (mirror_point[0] - Dw/2, mirror_point[1] + mirror_point[0]*math.sin(math.pi/3) + 1 - Dh/2)])
+    # inv2 = gdspy.Polygon([(mirror_point[0] - Dw/2, mirror_point[1] - mirror_point[0]*math.sin(math.pi/3) - 1 + Dh/2),
+    #                     (mirror_point[0] + Dw/2, mirror_point[1] - mirror_point[0]*math.sin(math.pi/3) - 1 + Dh/2),
+    #                     (mirror_point[0] + Dw/2, mirror_point[1] - mirror_point[0]*math.sin(math.pi/3) - 1 - Dh/2),
+    #                     (mirror_point[0] - Dw/2, mirror_point[1] - mirror_point[0]*math.sin(math.pi/3) - 1 - Dh/2)])
+    
+    inv1 = gdspy.Polygon([(mirror_point[0] - Dw/2, Dm + mirror_point[1]  + Dh/2),
+                        (mirror_point[0] + Dw/2, Dm + mirror_point[1] + Dh/2),
+                        (mirror_point[0] + Dw/2, Dm + mirror_point[1] - Dh/2),
+                        (mirror_point[0] - Dw/2, Dm + mirror_point[1] - Dh/2)])
+    inv2 = gdspy.Polygon([(mirror_point[0] - Dw/2, -Dm + mirror_point[1] + Dh/2),
+                        (mirror_point[0] + Dw/2, -Dm + mirror_point[1] + Dh/2),
+                        (mirror_point[0] + Dw/2, -Dm + mirror_point[1] - Dh/2),
+                        (mirror_point[0] - Dw/2, -Dm + mirror_point[1] - Dh/2)])
     
     inv3 = gdspy.Polygon([(mirror_point[0] - Dt, mirror_point[1] + connection/2),
                         (mirror_point[0] + Dt, mirror_point[1] + connection/2),
                         (mirror_point[0] + Dt, mirror_point[1] - connection/2),
                         (mirror_point[0] - Dt, mirror_point[1] - connection/2)])
 
-
     polygens_trucated = []
     for item in polygens_rotated:
         temp = gdspy.boolean(item, inv1, "not")
         temp2 = gdspy.boolean(temp, inv2, "not")
-        if connection:
-            polygens_trucated.append(gdspy.boolean(temp2, inv3, "not"))
-        else:
-            polygens_trucated.append(temp2)
-        
+        if temp2 is not None:
+            if connection:
+                temp3 = gdspy.boolean(temp2, inv3, "not")
+                if temp3 is not None:
+                    polygens_trucated.append(temp3)
+            else:
+                polygens_trucated.append(temp2)
+    
     cell.add(polygens_trucated)
 
     cell0 = lib.new_cell(str(uuid.uuid4()))
@@ -433,15 +465,13 @@ def make_trucated_DBRs(lib, cell, geometry_data, radii, geometry_center_A, conne
     for item in polygens_rotated:
         temp = gdspy.boolean(item, inv1, "not")
         temp2 = gdspy.boolean(temp, inv2, "not")
-        if connection:
-            polygens_trucated.append(gdspy.boolean(temp2, inv3, "not"))
-        else:
-            polygens_trucated.append(temp2)
+        if temp2 is not None:
+            if connection:
+                temp3 = gdspy.boolean(temp2, inv3, "not")
+                if temp3 is not None:
+                    polygens_trucated.append(temp3)
+            else:
+                polygens_trucated.append(temp2)
         
     cell.add(polygens_trucated)
-    
-    lib.remove(cell = 'DBR-PCSEL-CouplingA')
-    
-    lib.remove(cell = 'DBR-PCSEL-CouplingB')
-
-    
+   

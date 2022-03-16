@@ -30,6 +30,9 @@ cell = lib.new_cell('PC-PCSEL-CONFIG-I')
 # cell.add(rect)
 
 deviceSize = 50
+
+htext = gdspy.Text("CONFIGURATION ONE", 5, (deviceSize*1.2, deviceSize*4.5))
+cell.add(htext)
 # =============================================================================
 # # structure 1: PCSEL without DBR
 # =============================================================================
